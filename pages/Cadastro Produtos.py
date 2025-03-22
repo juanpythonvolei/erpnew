@@ -21,7 +21,7 @@ if side_bar_tab_selection == 'Adicionar Produtos':
     if not nome_produto or not codigo_produto or not categoria_produto or not unidade_produto or not fabricante_produto or not registro_produto or not validade_produto:
       container_form.error('Ainda há campos a serem preenchidos')
     else:
-      if registrar_produto(nome_produto,codigo_produto,categoria_produto,unidade_produto,fabricante_produto,registro_produto,str(validade_produto)):
+      if registrar_produto(nome_produto,codigo_produto,categoria_produto,unidade_produto,fabricante_produto,registro_produto,str(validade_produto),fornecedor_produto):
         container_form.success(f'Produto: {nome_produto} cadastrado com sucesso')
       else:
         container_form.error(f'Erro ao cadastrar o produto: {nome_produto}')

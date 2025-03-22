@@ -3,9 +3,9 @@ from database.engine.database import *
 import pandas as pd
 from io import BytesIO
 
-def registrar_produto(nome:str,codigo:str,categoria:str,unidade:str,fabricante:str,registro:str,validade:str):
+def registrar_produto(nome:str,codigo:str,categoria:str,unidade:str,fabricante:str,registro:str,validade:str,fornecedor:str):
     try:
-      novo_produto = Cadastro_Protudos(nome_produto = nome,codigo_produto = codigo,categoria = categoria,unidade_medida = unidade,fabricante = fabricante,registro_anvisa = registro,validade = validade)
+      novo_produto = Cadastro_Protudos(nome_produto = nome,codigo_produto = codigo,categoria = categoria,unidade_medida = unidade,fabricante = fabricante,registro_anvisa = registro,validade = validade,fornecedor=fornecedor)
       session.add(novo_produto)
       session.commit()
       session.close()
