@@ -1,5 +1,10 @@
 import streamlit as st 
 from functions.products_functions.product_functions import*
+from pathlib import Path
+
+logo_path = Path('./images/') / 'logo.jpg'
+st.image(str(logo_path))
+st.logo(str(logo_path),size='large')
 
 side_bar_tab_selection = st.sidebar.selectbox(label='Selecionar Aba',options=['Adicionar Produtos','Ver produtos','Modificar Produtos'])
 

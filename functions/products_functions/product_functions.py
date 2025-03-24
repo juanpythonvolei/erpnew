@@ -2,6 +2,8 @@ import streamlit as st
 from database.engine.database import *
 import pandas as pd
 from io import BytesIO
+from functions.historico.historico import registrar_novo_fato
+import datetime
 
 def registrar_produto(nome:str,codigo:str,categoria:str,unidade:str,fabricante:str,registro:str,validade:str,fornecedor:str):
     try:
@@ -9,6 +11,7 @@ def registrar_produto(nome:str,codigo:str,categoria:str,unidade:str,fabricante:s
       session.add(novo_produto)
       session.commit()
       session.close()
+      registrar_novo_fato(data=str(datetime.datetime.today().date()),descricao=f'Cadastro do Produto: {codigo}',categoria='Cadastro de Produtos')
       return True
     except:
       session.rollback()
@@ -48,6 +51,7 @@ def atualizar_produtos(codigo:str,campo:str,alteracao:str):
       produto.validade = alteracao
     session.commit()
     session.close()
+    registrar_novo_fato(data=str(datetime.datetime.today().date()),descricao=f'Produto: {codigo} atualizado no campo: {campo} para o valor de: {alteracao}',categoria='Cadastro de Produtos')
     return True
   else:
     return False
@@ -56,6 +60,7 @@ def excluir_produto(codigo:str):
   produto = session.query(Cadastro_Protudos).filter(Cadastro_Protudos.codigo_produto == codigo).first()
   if produto:
     session.delete(produto)
+    registrar_novo_fato(data=str(datetime.datetime.today().date()),descricao=f'Produto: {codigo} foi excluido',categoria='Cadastro de Produtos')
     return True
   else:
     return False

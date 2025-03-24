@@ -1,12 +1,16 @@
 import streamlit as st 
 from database.engine.database import *
 from functions.storage_functions.movimentacoes.movimentacoes import *
+from pathlib import Path
+logo_path = Path('./images/') / 'logo.jpg'
+st.image(str(logo_path))
+st.logo(str(logo_path),size='large')
 
 aba = st.sidebar.pills(label='Selecione a aba',options=['Movimentações','Ver meu estoque'])
 if aba == 'Movimentações':
   container_movimentacao = st.container(border=True)
   container_movimentacao.title('Movimentações no Estoque')
-  data_movimentacao = container_movimentacao.date_input(label='Selecione a data',value=None)
+  
   codigo_produto = container_movimentacao.selectbox(label='Produto',options=[produto.codigo_produto for produto in session.query(Cadastro_Protudos).all()],index=None,placeholder='Selecione um código')
   tipo_movimentacao = container_movimentacao.segmented_control(label='Selecione o tipo de Movimentação',options=['Entrada','Saida','Alteração de posição/quantidade'])
   if tipo_movimentacao != 'Alteração de posição/quantidade':
@@ -15,10 +19,10 @@ if aba == 'Movimentações':
     observacoes = container_movimentacao.text_area(label='Observações',placeholder='Insira a suas observações')
     botao_movimentacoes = container_movimentacao.button('Realizar movimentação')
     if botao_movimentacoes:
-      if not data_movimentacao or not tipo_movimentacao or not codigo_produto or not quantidade_produto or not destino_origem:
+      if not tipo_movimentacao or not codigo_produto or not quantidade_produto or not destino_origem:
         container_movimentacao.error("Ainda restam campos a serem preenchidos")
       else:
-        if adicionar_nova_movimentacao(data_movimentacao,tipo_movimentacao,codigo_produto,quantidade_produto,destino_origem,observacoes):
+        if adicionar_nova_movimentacao(tipo_movimentacao,codigo_produto,quantidade_produto,destino_origem,observacoes):
           container_movimentacao.success(f"Movimentação do tipo : {tipo_movimentacao} do produto: {codigo_produto} foi registrada para o destino: {destino_origem} na quantidade: {quantidade_produto}")
         else:
           container_movimentacao.error(f'Erro ao realizar a movimentação do produto: {codigo_produto}')
@@ -31,7 +35,7 @@ if aba == 'Movimentações':
       if not posicao_origem or not posicao_fim or not quantidade_alteracao or not codigo_produto:
         container_movimentacao.error('Ainda restam campos a serem preenchidos')
       else:
-        if alterar_produto_ou_quantidade(data_movimentacao,codigo_produto,tipo_movimentacao,quantidade_alteracao,posicao_fim,posicao_origem):
+        if alterar_produto_ou_quantidade(codigo_produto,tipo_movimentacao,quantidade_alteracao,posicao_fim,posicao_origem):
           container_movimentacao.success(f"Alteração realizada com sucesso para o produto: {codigo_produto}")
         else:
           container_movimentacao.error(f"Erro ao realizar a alteraçã no estoque para o produto: {codigo_produto}")

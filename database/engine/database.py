@@ -2,14 +2,18 @@ from sqlalchemy import create_engine, Column, Integer, String, BOOLEAN,Float,For
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
+import streamlit as st
 # Criar um engine para o banco de dados
-database = 'sqlite:///database/base/dados.db'
 # database = f'{os.getenv('database_url')}'
-engine = create_engine(database,echo=True)
+database = st.secrets['db']
+engine = create_engine(database,echo=False)
 
 # Definir a classe base do modelo
 Base = declarative_base()
-
+class Passe(Base):
+    __tablename__ = 'Passes'
+    chave = Column(String,unique=True,primary_key=True)
+    id_usuario = Column(Integer)
 # Definir a classe do modelo
 class Usuario(Base):
     __tablename__ = 'usuarios'
@@ -34,7 +38,6 @@ class Cadastro_Protudos(Base):
 class Movimentacao_estoque(Base):
     __tablename__  = 'movimentação de estoque'
     id = Column(Integer, primary_key=True,autoincrement=True) 
-    data = Column(String)
     tipo_movimentacao = Column(String)
     codigo_produto = Column(String)
     nome_produto = Column(String)
@@ -71,6 +74,13 @@ class Estoque_Final(Base):
     validade = Column(String)
     localizacao_estoque = Column(String)
     status_produto = Column(String)
+class Historico(Base):
+    __tablename__ = 'historico'
+    id = Column(Integer, primary_key=True,autoincrement=True)
+    data = Column(String)
+    descricao = Column(String)
+    categoria = Column(String)
+    usuario = Column(String)
 
 
 Base.metadata.create_all(engine)

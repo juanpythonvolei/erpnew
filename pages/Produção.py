@@ -1,9 +1,16 @@
 import streamlit as st
 from functions.producao.functions_producao import *
 from database.engine.database import *
+from pathlib import Path
+logo_path = Path('./images/') / 'logo.jpg'
+st.image(str(logo_path))
+st.logo(str(logo_path),size='large')
+
 
 st.sidebar.empty()
 container_alteracao = st.sidebar.container(border=True)
+container_alteracao.download_button(label='Baixar tabela de Produção 📂',data=convert_df_to_excel(ver_Producao(),'Produção'),file_name=f"Tabela de Produção.xlsx",
+    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 container_alteracao.subheader('Alterações')
 container_alteracao.divider()
  
@@ -30,7 +37,7 @@ if botao_altercao:
 container_producao = st.container(border=True)
 container_producao.title('Registro de Nova produção')
 container_producao.divider()
-data = container_producao.date_input(label='Selecione a data')
+data = container_producao.date_input(label='Selecione a data',value=None)
 codigo = container_producao.selectbox(label='Produto',options=[produto.codigo_produto for produto in session.query(Cadastro_Protudos).all()],index=None,placeholder='Selecione um código')
 quantidade  = container_producao.slider(label='Quantidade Produção')
 lote  = container_producao.text_input(label='Lote',placeholder='Lote da Produção')
