@@ -1,7 +1,7 @@
 from database.engine.database import *
 def login(email:str,senha:int):
    try:
-      session.query(Usuario).filter(Usuario.email == email,Usuario.senha == senha)
+      session.query(Usuario).filter(Usuario.email == email,Usuario.senha == senha).exists()
       session.close()
       return True
    except:
