@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 import os
 import streamlit as st
 # Criar um engine para o banco de dados
+
 # database = f'{os.getenv('database_url')}'
 database = st.secrets['db']
 engine = create_engine(database,echo=False)
