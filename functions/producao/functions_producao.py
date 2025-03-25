@@ -17,7 +17,7 @@ def registrar_producao(data:str,codigo:str,quantidade:int,lote:str,ordem:str,sta
     return False
 
 def alterar_registro(data:str,codigo:str,campo:str,valor:str):
-  registro = session.query(Producao).filter(str(Producao.data) == str(data),Producao.codigo_produto == codigo).first()
+  registro = session.query(Producao).filter(Producao.data == str(data),Producao.codigo_produto == codigo).first()
   if registro:
     if campo == 'Quantidade de Produção':
       registro.quantidade_na_prducao = int(valor)
