@@ -4,7 +4,7 @@ import pandas as pd
 from io import BytesIO
 
 def registrar_novo_fato(data:str,descricao:str,categoria:str,usuario:str = None):
-  novo_registro = Historico(data=data,descricao=descricao,categoria=categoria,usuario=usuario)
+  novo_registro = Historico(data=data.replace('/','-'),descricao=descricao,categoria=categoria,usuario=usuario)
   if novo_registro:
     session.add(novo_registro)
     session.commit()

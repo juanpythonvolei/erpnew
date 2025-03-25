@@ -6,7 +6,7 @@ import pandas as pd
 from io import BytesIO
 
 def registrar_producao(data:str,codigo:str,quantidade:int,lote:str,ordem:str,status:str):
-  nova_producao = Producao(data=data,codigo_produto=codigo,nome_produto=session.query(Cadastro_Protudos).filter(Cadastro_Protudos.codigo_produto==codigo).first().nome_produto,quantidade_na_prducao = quantidade,lote=lote,ordem_producao = ordem,status=status)
+  nova_producao = Producao(data=data.replace('/','-'),codigo_produto=codigo,nome_produto=session.query(Cadastro_Protudos).filter(Cadastro_Protudos.codigo_produto==codigo).first().nome_produto,quantidade_na_prducao = quantidade,lote=lote,ordem_producao = ordem,status=status)
   if nova_producao:
     session.add(nova_producao)
     session.commit()
