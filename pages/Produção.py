@@ -48,7 +48,7 @@ if botao_nova_producao:
   if not data or not codigo or not quantidade or not lote or not ordem_producao or not status:
     container_producao.error("Ainda restam campos a serem preenchidos")
   else:
-    if registrar_producao(data,codigo,quantidade,lote,ordem_producao,status):
+    if registrar_producao(str(data),codigo,quantidade,lote,ordem_producao,status):
       container_producao.success("Sucesso ao registrar uma nova produção")
     else:
       container_producao.error("Erro ao registrar a produção")
