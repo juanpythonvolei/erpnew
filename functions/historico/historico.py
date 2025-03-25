@@ -34,9 +34,9 @@ def convert_df_to_excel(df,nome):
 def ver_historico_filtrado(campo:str,valor:str):
     print(campo)
     if campo == 'Data':
-      produtoss = session.query(Historico).filter(Historico.data == valor).all()
+      produtoss = session.query(Historico).filter(Historico.data == str(valor)).all()
     elif campo == 'Categoria':
-        produtoss = session.query(Historico).filter(Historico.categoria == valor).all()
+        produtoss = session.query(Historico).filter(Historico.categoria == str(valor)).all()
     lista = [{
      "Data":produto.data,
      "Descrição":produto.descricao,
